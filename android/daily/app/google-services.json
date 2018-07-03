@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "544802277204",
+    "firebase_url": "https://durable-office-837.firebaseio.com",
+    "project_id": "durable-office-837",
+    "storage_bucket": "durable-office-837.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544802277204:android:ff43cd8a72c588ab",
+        "android_client_info": {
+          "package_name": "com.jv.daily"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544802277204-qb0o1q8sc4qh1a0sc04q90stm2tlfljf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jv.daily",
+            "certificate_hash": "aa9e4d677508b49d0c9554cc5386d04045b3d6bf"
+          }
+        },
+        {
+          "client_id": "544802277204-3bqk94s56cnbrouu6s26fjpekkb0nqtb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jv.daily",
+            "certificate_hash": "e68b7bda02e54a5cd1524f0491d3641c28745c55"
+          }
+        },
+        {
+          "client_id": "544802277204-7a9tnp4t0un25ebn8m4j2l24602rbf9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rhS0yM4HedCOR7p7opz7_OaKBXDrSWQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544802277204-7a9tnp4t0un25ebn8m4j2l24602rbf9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544802277204:android:0deef14af12d5378",
+        "android_client_info": {
+          "package_name": "com.jv.firebasewphone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544802277204-lkml3c6lorusr78sih36j9qn1um1vv4u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jv.firebasewphone",
+            "certificate_hash": "aa9e4d677508b49d0c9554cc5386d04045b3d6bf"
+          }
+        },
+        {
+          "client_id": "544802277204-7a9tnp4t0un25ebn8m4j2l24602rbf9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rhS0yM4HedCOR7p7opz7_OaKBXDrSWQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544802277204-7a9tnp4t0un25ebn8m4j2l24602rbf9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
