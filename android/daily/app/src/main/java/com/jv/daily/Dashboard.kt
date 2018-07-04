@@ -19,6 +19,8 @@ import android.view.MenuItem
 import java.util.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
+import java.text.SimpleDateFormat
 
 
 
@@ -89,24 +91,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
         dailyReset()
 
-        // Write a message to the database
-        val database = FirebaseDatabase.getInstance()
-
-        val usersRef = database.getReference("users")
-        val expenseRef = database.getReference("expense")
-
-        val userId = usersRef.push().key
-        val expenseId = expenseRef.push().key
-
-        var user = DBUserModel("Sekar", 12345)
-        usersRef.child(userId).setValue(user)
-
-        val context = HashMap<String, Int>()
-        context.put("vegetables", 20)
-        context.put("petrol", 1200)
-
-        var expense = DBExpenseModel("6532", context)
-        expenseRef.child(expenseId).setValue(expense)
 
 
         var cd1 = findViewById<CardView>(R.id.cd1)
@@ -148,16 +132,22 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         var intent = Intent(this, Reset::class.java)
         val pi = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
+        val now = Calendar.getInstance()
+        val midNight = Calendar.getInstance()
+        midNight.set(Calendar.HOUR, 12)
+        midNight.set(Calendar.MINUTE, 0)
+        midNight.set(Calendar.SECOND, 0)
+        midNight.set(Calendar.MILLISECOND, 0)
+        midNight.set(Calendar.AM_PM, Calendar.AM)
+
+        var diff = now.timeInMillis - midNight.timeInMillis
+
+        if (diff < 0) {
+            midNight.add(Calendar.DAY_OF_MONTH, 1)
+        }
 
         val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, (1000 * 60 * 60 * 24).toLong(), pi)
-        Log.d("calendar.timeInMillis", ""+calendar.timeInMillis);
-        Log.d("System.timeInMillis", ""+System.currentTimeMillis())
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pi)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, midNight.timeInMillis, AlarmManager.INTERVAL_DAY, pi)
     }
 
     override fun onResume() {
@@ -254,8 +244,7 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_upload -> {
-                Toast.makeText(this, "Uploaded to server!", Toast.LENGTH_SHORT)
-                        .show()
+                UploadService().uploadData()
             }
         }
 

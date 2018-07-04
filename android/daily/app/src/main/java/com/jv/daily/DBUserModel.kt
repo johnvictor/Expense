@@ -1,4 +1,4 @@
 package com.jv.daily
 
-class DBUserModel (var name: String, var phone:Int) {
+class DBUserModel (var name: String, var phone:String) {
 }
