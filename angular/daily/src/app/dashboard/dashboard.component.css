@@ -1,0 +1,30 @@
+.users {
+	font-weight: bold;
+	position: relative;
+	background-color: #ffffff;
+}
+
+.search-field {
+	right: 0;
+	position: absolute;
+	padding-right: 40px;
+	font-size: 16px;
+}
+
+mat-list-item {
+	font-size: 14px !important;
+}
+
+.mat-card {
+	width: 720px;
+	margin: 0 auto;
+}
+
+.phone {
+	text-align: right;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

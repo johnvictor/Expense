@@ -1,0 +1,108 @@
+<div class='expense-container'>
+	<ol class="breadcrumb">
+	  <li class="breadcrumb-item"><a routerLink='/dashboard'>Dashboard</a></li>
+	  <li class="breadcrumb-item active">Expense</li>
+	</ol>
+	
+	<div class='expense-items'>
+
+		<mat-card>
+			<label>
+				John Victor
+			</label>
+
+			<span class='phone'>
+				9629670097
+			</span>
+
+
+		<mat-form-field>
+		  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+		</mat-form-field>
+
+		<div class="mat-elevation-z8">
+		  <table mat-table [dataSource]="dataSource" matSort>
+
+		  	<!-- Name Column -->
+		   <!--  <ng-container matColumnDef="name">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+		      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+		    </ng-container> -->
+
+		    <!-- Phone Column -->
+		   <!--  <ng-container matColumnDef="phone">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+		      <td mat-cell *matCellDef="let row"> {{row.phone}} </td>
+		    </ng-container> -->
+
+		    <!-- Date Column -->
+		    <ng-container matColumnDef="date">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+		      <td mat-cell *matCellDef="let row"> {{row.date}} </td>
+		    </ng-container>
+
+		    <!-- Stationary Column -->
+		    <ng-container matColumnDef="stationary">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Stationary </th>
+		      <td mat-cell *matCellDef="let row"> {{row.stationary}} </td>
+		    </ng-container>
+
+		    <!-- Dress Column -->
+		    <ng-container matColumnDef="dress">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Dress </th>
+		      <td mat-cell *matCellDef="let row"> {{row.dress}} </td>
+		    </ng-container>
+
+		    <!-- Hospital Column -->
+		    <ng-container matColumnDef="hospital">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Hospital </th>
+		      <td mat-cell *matCellDef="let row"> {{row.hospital}} </td>
+		    </ng-container>
+
+		    <!-- Travel Column -->
+		    <ng-container matColumnDef="travel">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Travel </th>
+		      <td mat-cell *matCellDef="let row"> {{row.travel}} </td>
+		    </ng-container>
+
+		    <!-- Furniture Column -->
+		    <ng-container matColumnDef="furniture">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Furniture </th>
+		      <td mat-cell *matCellDef="let row"> {{row.furniture}} </td>
+		    </ng-container>
+
+		    <!-- Recharge Column -->
+		    <ng-container matColumnDef="recharge">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Recharge </th>
+		      <td mat-cell *matCellDef="let row"> {{row.recharge}} </td>
+		    </ng-container>
+
+		    <!-- Vegetables Column -->
+		    <ng-container matColumnDef="vegetables">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vegetables </th>
+		      <td mat-cell *matCellDef="let row"> {{row.vegetables}} </td>
+		    </ng-container>
+
+		    <!-- Petrol Column -->
+		    <ng-container matColumnDef="petrol">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Petrol </th>
+		      <td mat-cell *matCellDef="let row"> {{row.petrol}} </td>
+		    </ng-container>
+
+		    <!-- Electricity Column -->
+		    <ng-container matColumnDef="electricity">
+		      <th mat-header-cell *matHeaderCellDef mat-sort-header> Electricity </th>
+		      <td mat-cell *matCellDef="let row"> {{row.electricity}} </td>
+		    </ng-container>
+
+		    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+		    </tr>
+		  </table>
+
+		  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+		</div>
+				</mat-card>
+
+	</div>
+</div>

@@ -1,0 +1,75 @@
+.expense-container {
+	margin: 0 auto;
+	height: 600px;
+}
+
+.expense-items {
+	width: 992px;
+	margin: 0 auto;
+}
+
+table {
+	width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 15%;
+}
+
+td:nth-child(2), th:nth-child(2) {
+	width: 9%;
+ 	color: navy;
+}
+
+td:nth-child(3) , th:nth-child(3) {
+	width: 9%;
+ 	color: red;
+}
+
+td:nth-child(4) , th:nth-child(4) {
+	width: 9%;
+ 	color: green;
+}
+
+td:nth-child(5) , th:nth-child(5) {
+	width: 9%;
+ 	color: grey;
+}
+
+td:nth-child(6) , th:nth-child(6) {
+	width: 9%;
+ 	color: olive;
+}
+
+td:nth-child(7) , th:nth-child(7) {
+	width: 9%;
+ 	color: fuchsia;
+}
+
+td:nth-child(8) , th:nth-child(8) {
+	width: 9%;
+ 	color: teal;
+}
+
+td:nth-child(9) , th:nth-child(9) {
+	width: 9%;
+ 	color: black;
+}
+
+td:nth-child(10) , th:nth-child(10) {
+	width: 9%;
+ 	color: red;
+}
+
+.phone {
+	float: right;
+}
+
+label, span {
+	font-size: 14px;
+}

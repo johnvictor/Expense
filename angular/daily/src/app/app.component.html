@@ -1,0 +1,25 @@
+<div class="container-fluid">
+	<mat-card>
+		<mat-toolbar class='toolbar' color="primary">
+			<img src='assets/img/logo.png' class='logo'/>
+			<button mat-button routerLink='/dashboard'>Dashboard</button>	
+			<!-- <button mat-button>Dashboard</button>	
+			<button mat-button>Dashboard</button>	
+			<button mat-button>Dashboard</button>	 -->
+			<div class='sidemenu'>
+				<button mat-icon-button [matMenuTriggerFor]="menu">
+				  <mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+				  <button mat-menu-item>
+				    <span>Logout</span>
+				  </button>
+				</mat-menu>
+			</div>
+		</mat-toolbar>
+
+
+	</mat-card>
+
+  	<router-outlet></router-outlet>
+</div>

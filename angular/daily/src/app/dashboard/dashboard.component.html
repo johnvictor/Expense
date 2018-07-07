@@ -1,0 +1,27 @@
+<div class="dashboard-container">
+
+
+	<mat-card>
+		<div class='card-items'>
+			<mat-form-field>
+		  		<input matInput placeholder="Filter">
+			</mat-form-field>
+			<mat-nav-list role="list"  class='user-list'>
+			 	<mat-list-item role="listitem" *ngFor="let user of userNames" (click)='expenseInfo(user)'>
+			  		<div class='col-6'>
+			  			{{user}}
+			  		</div>
+			  		<div class='col-6 phone'>
+			  			98444455565
+			  		</div>
+				</mat-list-item>
+			</mat-nav-list>
+
+			<mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+			</mat-paginator>
+		</div>
+	</mat-card>
+</div>
+

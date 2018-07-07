@@ -3,7 +3,7 @@
     package="com.jv.daily">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,23 +13,23 @@
         android:roundIcon="@drawable/expenses"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Dashboard">
+        <activity android:name=".Dashboard" />
+        <activity android:name=".Add" />
+        <activity android:name=".History" />
+        <activity android:name=".AddMoney" />
+        <activity android:name=".MainActivity" />
+
+        <receiver
+            android:name=".Reset"
+            android:process=":remote"></receiver>
+
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Add" />
-        <activity android:name=".History" />
-        <activity android:name=".AddMoney" />
-        <activity android:name=".MainActivity"></activity>
-
-        <!-- registering the receiver -->
-        <receiver
-            android:name=".Reset"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest>

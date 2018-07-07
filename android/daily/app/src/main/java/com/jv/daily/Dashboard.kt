@@ -4,25 +4,19 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.CardView
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import java.util.concurrent.ConcurrentHashMap
-import android.widget.TimePicker
-import android.widget.Toast
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Context.ALARM_SERVICE
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import java.util.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
-import java.text.SimpleDateFormat
-
-
+import com.firebase.jobdispatcher.*
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Context.ALARM_SERVICE
+import android.app.PendingIntent
+import android.util.Log
 
 
 class Dashboard : AppCompatActivity(), View.OnClickListener {
@@ -129,25 +123,29 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun dailyReset() {
-        var intent = Intent(this, Reset::class.java)
-        val pi = PendingIntent.getBroadcast(this, 0, intent, 0);
+        var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, Reset::class.java)
+        val alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
 
-        val now = Calendar.getInstance()
-        val midNight = Calendar.getInstance()
-        midNight.set(Calendar.HOUR, 12)
-        midNight.set(Calendar.MINUTE, 0)
-        midNight.set(Calendar.SECOND, 0)
-        midNight.set(Calendar.MILLISECOND, 0)
-        midNight.set(Calendar.AM_PM, Calendar.AM)
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.HOUR, 0)
+        calendar.set(Calendar.AM_PM, Calendar.AM)
 
-        var diff = now.timeInMillis - midNight.timeInMillis
+        var midNightMilli  = calendar.timeInMillis
 
-        if (diff < 0) {
-            midNight.add(Calendar.DAY_OF_MONTH, 1)
+        val diff = Calendar.getInstance().timeInMillis - midNightMilli
+
+
+        if(diff > 0) {
+            calendar.add(Calendar.DATE, 1)
         }
 
-        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, midNight.timeInMillis, AlarmManager.INTERVAL_DAY, pi)
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY, alarmIntent)
+
     }
 
     override fun onResume() {
