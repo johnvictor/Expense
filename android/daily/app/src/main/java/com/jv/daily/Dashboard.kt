@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.app.PendingIntent
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 
 class Dashboard : AppCompatActivity(), View.OnClickListener {
@@ -31,46 +32,47 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
     lateinit var tv8: TextView
     lateinit var tv9: TextView
 
-
+    lateinit var auth: FirebaseAuth
+    var totalList = HashMap<String, Int>()
 
     override fun onClick(p0: View?) {
         var intent = Intent(this, AddMoney::class.java)
 
         when (p0?.id) {
             R.id.cd1 -> {
-                intent.putExtra("item", "books");
+                intent.putExtra("item", "stationary")
             }
 
             R.id.cd2 -> {
-                intent.putExtra("item", "cloths");
+                intent.putExtra("item", "dress")
             }
 
             R.id.cd3 -> {
-                intent.putExtra("item", "medicine");
+                intent.putExtra("item", "hospital")
             }
 
             R.id.cd4 -> {
-                intent.putExtra("item", "transport");
+                intent.putExtra("item", "transport")
             }
 
             R.id.cd5 -> {
-                intent.putExtra("item", "furniture");
+                intent.putExtra("item", "furniture")
             }
 
             R.id.cd6 -> {
-                intent.putExtra("item", "recharge");
+                intent.putExtra("item", "recharge")
             }
 
             R.id.cd7 -> {
-                intent.putExtra("item", "vegetables");
+                intent.putExtra("item", "vegetables")
             }
 
             R.id.cd8 -> {
-                intent.putExtra("item", "petrol");
+                intent.putExtra("item", "petrol")
             }
 
             R.id.cd9 -> {
-                intent.putExtra("item", "electricity");
+                intent.putExtra("item", "electricity")
             }
 
         }
@@ -84,6 +86,8 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_dashboard)
 
         dailyReset()
+
+        auth = FirebaseAuth.getInstance()
 
 
 
@@ -107,10 +111,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         tv8 = findViewById<TextView>(R.id.tv8)
         tv9 = findViewById<TextView>(R.id.tv9)
 
-//        var db = DatabaseHelper(this);
-//        var allItems = db.getUsers()
-//        total(allItems)
-
         cd1.setOnClickListener(this)
         cd2.setOnClickListener(this)
         cd3.setOnClickListener(this)
@@ -121,6 +121,7 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         cd8.setOnClickListener(this)
         cd9.setOnClickListener(this)
     }
+
 
     private fun dailyReset() {
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -150,20 +151,21 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        var db = DatabaseHelper(this);
+
+        totalList.clear()
+
+        var db = DatabaseHelper(this)
         var allItems = db.getUsers()
         total(allItems)
     }
 
     fun total(allItems: List<Money>) {
-        var list = ConcurrentHashMap<String, Int>()
-
         for (item in allItems) {
-            var value = list.containsKey(item.item)
+            var value = totalList.containsKey(item.item)
             if (value) {
-                list.set(item.item, list.getValue(item.item) + (item.amount * item.count))
+                totalList.set(item.item, totalList.getValue(item.item) + (item.amount * item.count))
             } else {
-                list.set(item.item, (item.amount * item.count))
+                totalList.set(item.item, (item.amount * item.count))
             }
         }
 
@@ -183,18 +185,18 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 //
 //        }
 
-        for (lll in list) {
+        for (lll in totalList) {
 
             when (lll.key) {
-                "books" -> {
+                "stationary" -> {
                     tv1.text = lll.value.toString()
                 }
 
-                "cloths" -> {
+                "dress" -> {
                     tv2.text = lll.value.toString()
                 }
 
-                "medicine" -> {
+                "hospital" -> {
                     tv3.text = lll.value.toString()
                 }
 
@@ -242,11 +244,26 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_upload -> {
-                UploadService().uploadData()
+                var preference = MyPreference(this)
+                UploadService().uploadData(totalList, preference.getPhone())
             }
+
+//            R.id.logout -> {
+//                FirebaseAuth.getInstance().signOut()
+//                startActivity(Intent(this, Login::class.java))
+//
+//            }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if(auth.currentUser == null) {
+            startActivity(Intent(this, Login::class.java))
+        }
     }
 
 }

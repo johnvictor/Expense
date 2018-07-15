@@ -73,3 +73,25 @@ td:nth-child(10) , th:nth-child(10) {
 label, span {
 	font-size: 14px;
 }
+
+.no-data mat-card {
+	font-size: 22px;
+	margin: 0 auto;
+	color: #666666;
+}
+
+.breadcrumb {
+	background-color: #f6f6f6;
+}
+
+.user-header {
+	font-size: 14px;
+	color: #666666;
+	text-align: center;
+}
+
+.user-value {
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
