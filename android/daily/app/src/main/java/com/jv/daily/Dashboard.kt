@@ -16,6 +16,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.app.PendingIntent
+import android.os.Handler
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
@@ -85,8 +86,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        dailyReset()
-
         auth = FirebaseAuth.getInstance()
 
 
@@ -124,34 +123,51 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
 
     private fun dailyReset() {
-        var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, Reset::class.java)
-        val alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.HOUR, 0)
-        calendar.set(Calendar.AM_PM, Calendar.AM)
-
-        var midNightMilli  = calendar.timeInMillis
-
-        val diff = Calendar.getInstance().timeInMillis - midNightMilli
 
 
-        if(diff > 0) {
-            calendar.add(Calendar.DATE, 1)
+        var date = Common().getDate()
+        var preference = MyPreference(this)
+        var prefDate = preference.getDate()
+
+        if(prefDate == "") {
+            preference.setDate(date)
+            var dbHelper = DatabaseHelper(this)
+            dbHelper.clearMoney()
+        } else if(prefDate != date) {
+            preference.setDate(date)
+            var dbHelper = DatabaseHelper(this)
+            dbHelper.clearMoney()
         }
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY, alarmIntent)
+
+//        var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val intent = Intent(this, Reset::class.java)
+//        val alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+//
+//        val calendar = Calendar.getInstance()
+//        calendar.timeInMillis = System.currentTimeMillis()
+//        calendar.set(Calendar.SECOND, 0)
+//        calendar.set(Calendar.MINUTE, 0)
+//        calendar.set(Calendar.HOUR, 0)
+//        calendar.set(Calendar.AM_PM, Calendar.AM)
+//
+//        var midNightMilli  = calendar.timeInMillis
+//
+//        val diff = Calendar.getInstance().timeInMillis - midNightMilli
+//
+//
+//        if(diff > 0) {
+//            calendar.add(Calendar.DATE, 1)
+//        }
+//
+//        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+//                AlarmManager.INTERVAL_DAY, alarmIntent)
 
     }
 
     override fun onResume() {
         super.onResume()
-
+        startRepeatingTask()
         totalList.clear()
 
         var db = DatabaseHelper(this)
@@ -264,6 +280,33 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         if(auth.currentUser == null) {
             startActivity(Intent(this, Login::class.java))
         }
+    }
+
+    private val INTERVAL = 1000 * 60 * 2 //2 minutes
+    var mHandler = Handler()
+
+    var mHandlerTask: Runnable = object : Runnable {
+        override fun run() {
+            Toast.makeText(applicationContext,"Resetting DB", Toast.LENGTH_SHORT).show();
+            dailyReset()
+            mHandler.postDelayed(this, 1000 * 60)
+        }
+    }
+
+    fun startRepeatingTask() {
+        mHandlerTask.run()
+    }
+
+    fun stopRepeatingTask() {
+        mHandler.removeCallbacks(mHandlerTask)
+    }
+
+    override fun onDestroy() {
+        stopRepeatingTask()
+        Toast.makeText(applicationContext,"On Destroy", Toast.LENGTH_SHORT).show()
+
+        super.onDestroy()
+
     }
 
 }

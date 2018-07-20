@@ -24,9 +24,8 @@ class UploadService {
 //        val userId = usersRef.push().key
 //        val expenseId = expenseRef.push().key
 
-        val c = Calendar.getInstance().time
-        val df = SimpleDateFormat("dd-MM-yyyy")
-        val formattedDate = df.format(c)
+
+        val formattedDate = Common().getDate()
 //
 //        val context = HashMap<String, Int>()
 //        context.put("vegetables", 30)
