@@ -88,8 +88,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
         auth = FirebaseAuth.getInstance()
 
-
-
         var cd1 = findViewById<CardView>(R.id.cd1)
         var cd2 = findViewById<CardView>(R.id.cd2)
         var cd3 = findViewById<CardView>(R.id.cd3)
@@ -129,16 +127,32 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         var preference = MyPreference(this)
         var prefDate = preference.getDate()
 
+
+//        Toast.makeText(applicationContext,"Date $date, prefdate $prefDate", Toast.LENGTH_SHORT).show()
+
         if(prefDate == "") {
             preference.setDate(date)
             var dbHelper = DatabaseHelper(this)
             dbHelper.clearMoney()
+
+            totalList.clear()
+            var db = DatabaseHelper(this)
+            var allItems = db.getUsers()
+            total(allItems)
+
+//            Toast.makeText(applicationContext,"Empty Clearing", Toast.LENGTH_SHORT).show()
         } else if(prefDate != date) {
             preference.setDate(date)
             var dbHelper = DatabaseHelper(this)
             dbHelper.clearMoney()
-        }
 
+            totalList.clear()
+            var db = DatabaseHelper(this)
+            var allItems = db.getUsers()
+            total(allItems)
+
+//            Toast.makeText(applicationContext,"Date not equal Clearing", Toast.LENGTH_SHORT).show()
+        }
 
 //        var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 //        val intent = Intent(this, Reset::class.java)
@@ -167,7 +181,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        startRepeatingTask()
         totalList.clear()
 
         var db = DatabaseHelper(this)
@@ -201,11 +214,17 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 //
 //        }
 
+        if(totalList.size == 0) {
+            clearTextFields()
+        }
+
         for (lll in totalList) {
 
             when (lll.key) {
                 "stationary" -> {
+                    var vvv = lll.value.toString()
                     tv1.text = lll.value.toString()
+//                    Toast.makeText(applicationContext,"Setting stationary $vvv", Toast.LENGTH_SHORT).show()
                 }
 
                 "dress" -> {
@@ -244,6 +263,18 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun clearTextFields() {
+        tv1.text = null
+        tv2.text = null
+        tv3.text = null
+        tv4.text = null
+        tv5.text = null
+        tv6.text = null
+        tv7.text = null
+        tv8.text = null
+        tv9.text = null
+    }
+
     override fun onBackPressed() {
         val startMain = Intent(Intent.ACTION_MAIN)
         startMain.addCategory(Intent.CATEGORY_HOME)
@@ -279,6 +310,8 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
         if(auth.currentUser == null) {
             startActivity(Intent(this, Login::class.java))
+        } else {
+            startRepeatingTask()
         }
     }
 
@@ -287,7 +320,7 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
     var mHandlerTask: Runnable = object : Runnable {
         override fun run() {
-            Toast.makeText(applicationContext,"Resetting DB", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(applicationContext,"Resetting DB", Toast.LENGTH_SHORT).show()
             dailyReset()
             mHandler.postDelayed(this, 1000 * 60)
         }
@@ -303,7 +336,6 @@ class Dashboard : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         stopRepeatingTask()
-        Toast.makeText(applicationContext,"On Destroy", Toast.LENGTH_SHORT).show()
 
         super.onDestroy()
 
